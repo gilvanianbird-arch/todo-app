@@ -1,24 +1,75 @@
-# README
+# Todo App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby on Rails で作成したタスク管理アプリです。
+ユーザー認証・検索・フィルター・並び替えなど、実用的な機能を実装しました。
 
-Things you may want to cover:
+---
 
-* Ruby version
+## 🖼️ スクリーンショット
 
-* System dependencies
+> ※ GitHubにスクリーンショット画像をアップロードして、以下のパスを書き換えてください
+> `![トップ画面](docs/screenshot.png)`
 
-* Configuration
+---
 
-* Database creation
+## 🚀 機能一覧
 
-* Database initialization
+| 機能 | 説明 |
+|------|------|
+| ✅ タスクのCRUD | 作成・編集・削除 |
+| 🔐 ユーザー認証 | ログイン・ログアウト（Devise） |
+| 🔍 タスク検索 | キーワードでリアルタイム検索 |
+| 🗂️ フィルター | すべて・未完了・完了で絞り込み |
+| 🔃 並び替え | 優先度・期限日で並び替え |
+| ⭐ 優先度設定 | 高・中・低のバッジ表示 |
+| 📅 期限日設定 | 期限日の登録・表示 |
+| ☑️ 完了状態管理 | チェックボックスで完了切替・完了時は打ち消し線表示 |
+| 🎨 UI改善 | カードレイアウト・Flexbox配置・ボタンの視覚統一・空状態表示 |
+| 🛡️ バリデーション | タイトルの必須チェックなど |
 
-* How to run the test suite
+---
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🛠️ 使用技術
 
-* Deployment instructions
+| カテゴリ | 技術 |
+|----------|------|
+| バックエンド | Ruby on Rails 8.1.2 |
+| フロントエンド | HTML / CSS / ERB |
+| 認証 | Devise |
+| データベース | SQLite3 |
+| バージョン管理 | Git / GitHub |
 
-* ...
+---
+
+## ⚙️ ローカル環境での起動方法
+
+```bash
+# リポジトリをクローン
+git clone https://github.com/gilvanianbird-arch/todo-app.git
+cd todo-app
+
+# gemのインストール
+bundle install
+
+# データベースの作成・マイグレーション
+rails db:create
+rails db:migrate
+
+# サーバー起動
+rails server
+```
+
+ブラウザで `http://localhost:3000` を開いてください。
+
+---
+
+## 👤 作者
+
+- GitHub: [@gilvanianbird-arch](https://github.com/gilvanianbird-arch)
+
+---
+
+## 📝 制作背景
+
+プログラミング学習の一環として作成しました。
+基本的なCRUD操作に加え、実用的なWebアプリに必要な認証・検索・フィルター・UIの改善まで一通り実装しています。
