@@ -1,0 +1,91 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Todos" %>
+
+<h1>Todos</h1>
+
+<div style="margin-bottom: 10px;">
+  <% current = params[:status] %>
+
+  <%= link_to "すべて", todos_path(keyword: params[:keyword], sort: params[:sort]),
+      style: ("font-weight: bold;" if current.nil?) %> |
+
+  <%= link_to "未完了", todos_path(status: "active", keyword: params[:keyword], sort: params[:sort]),
+      style: ("font-weight: bold;" if current == "active") %> |
+
+  <%= link_to "完了", todos_path(status: "done", keyword: params[:keyword], sort: params[:sort]),
+      style: ("font-weight: bold;" if current == "done") %>
+</div>
+
+<%= form_with url: todos_path, method: :get, local: true do |f| %>
+  <%= f.text_field :keyword, value: params[:keyword], placeholder: "タスク検索" %>
+  <%= f.hidden_field :status, value: params[:status] %>
+  <%= f.submit "検索" %>
+<% end %>
+
+<div style="margin: 10px 0;">
+  並び替え:
+  <%= link_to "優先度", todos_path(sort: "priority", status: params[:status], keyword: params[:keyword]) %> |
+  <%= link_to "期限", todos_path(sort: "deadline", status: params[:status], keyword: params[:keyword]) %>
+</div>
+
+<div id="todos">
+  <% if @todos.empty? %>
+    <p style="color: gray;">Todoがありません</p>
+  <% else %>
+    <% @todos.each do |todo| %>
+      <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 8px;">
+
+        <div style="display: flex; justify-content: space-between;">
+
+          <!-- 左 -->
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <%= form_with(model: todo, local: true) do |f| %>
+              <%= f.check_box :completed, onchange: "this.form.submit()" %>
+            <% end %>
+
+            <span style="
+              font-size: 16px;
+              <%= 'text-decoration: line-through; color: gray;' if todo.completed %>
+              <%= 'color: red;' if todo.deadline && todo.deadline < Date.today && !todo.completed %>
+            ">
+              <%= todo.title %>
+            </span>
+
+            <span style="font-size: 12px;">
+              <%= todo.deadline || "未設定" %>
+            </span>
+          </div>
+
+          <!-- 右 -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <% label = case todo.priority
+               when 3 then ["高", "#ff4d4d"]
+               when 2 then ["中", "#ffd24d"]
+               when 1 then ["低", "#4dff88"]
+               else ["未設定", "#ccc"]
+               end %>
+
+            <span style="
+              background-color: <%= label[1] %>;
+              padding: 2px 8px;
+              border-radius: 8px;
+              font-size: 12px;
+            ">
+              <%= label[0] %>
+            </span>
+
+            <%= link_to "編集", edit_todo_path(todo),
+                style: "background: #4da6ff; color: white; padding: 4px 8px; border-radius: 5px; text-decoration: none;" %>
+
+            <%= link_to "削除", todo,
+                data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+                style: "background: #ff4d4d; color: white; padding: 4px 8px; border-radius: 5px; text-decoration: none;" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "New todo", new_todo_path %>
