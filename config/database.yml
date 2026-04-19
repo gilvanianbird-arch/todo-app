@@ -1,4 +1,4 @@
-dproduction:
+production:
   primary:
     adapter: postgresql
     encoding: unicode
